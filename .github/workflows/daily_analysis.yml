@@ -17,6 +17,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: List files
+        run: ls -la
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
