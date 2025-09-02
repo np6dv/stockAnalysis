@@ -2,7 +2,7 @@ name: Daily Stock Analysis
 
 on:
   schedule:
-    - cron:  '30 16 * * *'  # every day at 16:30 UTC
+    - cron:  '30 11 * * *'  # every day at 16:30 UTC
   workflow_dispatch:      # allows manual runs from GitHub UI
 
 jobs:
