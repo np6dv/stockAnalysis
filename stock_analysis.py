@@ -56,7 +56,7 @@ def summarize_inflections(df):
             return {
                 "last_inflection_type": row['inflection'],
                 "last_inflection_date": str(row['date']),
-                "last_inflection_price": float(row['inflection_price'])
+                "last_inflection_price": round(float(row['inflection_price']), 2)
             }
     return {"last_inflection_type": None, "last_inflection_date": None, "last_inflection_price": None}
 
@@ -65,13 +65,13 @@ def summarize_volume(df):
     spikes = recent[recent['volume_spike']]
     today = df.iloc[-1]
     return {
-        "avg_volume_last_30d": float(recent['volume'].mean()),
+        "avg_volume_last_30d": round(float(recent['volume'].mean()), 0),
         "volume_spike_count_last_30d": int(spikes.shape[0]),
         "last_volume_spike_date": str(spikes['date'].iloc[-1]) if not spikes.empty else None,
         "last_volume_spike_value": float(spikes['volume'].iloc[-1]) if not spikes.empty else None,
         "today_volume": float(today['volume']),
         "today_volume_spike": bool(today['volume_spike']),
-        "today_volume_vs_avg": float(today['volume']) / float(recent['volume'].mean()) if recent['volume'].mean() else None
+        "today_volume_vs_avg": round(float(today['volume']) / float(recent['volume'].mean()), 2) if recent['volume'].mean() else None
     }
 
 def compute_confidence_score(inflection, volume, analyst, rsi, macd, macd_signal, current_price):
