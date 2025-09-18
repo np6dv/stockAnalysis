@@ -1,4 +1,3 @@
-
 import json
 import sys
 from stock_analysis import analyze_stock, convert_to_builtin_type
@@ -38,8 +37,11 @@ def pretty_print_result(res):
     print(f"Last inflection: {res.get('last_inflection', {})}")
     print(f"Volume analysis: {res.get('volume_analysis', {})}")
     action = res.get("inflection_action", {})
-    print(f"Recommendation: {action.get('action', 'N/A')}")
-    print(f"Analysis: {action.get('analysis', 'N/A')}")
+    print(f"Recommendation: {res.get('recommendation', 'N/A')}")
+#    print(f"Recommendation: {action.get('action', 'N/A')}")
+    print(f"Analysis: {res.get('analysis', 'N/A')}")
+
+#    print(f"Analysis: {action.get('analysis', 'N/A')}")
     print("=" * 60)
     print()
 
@@ -71,6 +73,7 @@ if __name__ == "__main__":
         try:
             res = analyze_stock(ticker)
             res = convert_to_builtin_type(res)
+
         except Exception as e:
             res = {"ticker": ticker, "error": str(e)}
         results.append(res)
