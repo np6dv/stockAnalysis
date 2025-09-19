@@ -59,8 +59,8 @@ def create_email_body(results):
         lines.append(f"Last inflection: {res.get('last_inflection', {})}")
         lines.append(f"Volume analysis: {res.get('volume_analysis', {})}")
         action = res.get("inflection_action", {})
-        lines.append(f"Recommendation: {action.get('action', 'N/A')}")
-        lines.append(f"Analysis: {action.get('analysis', 'N/A')}")
+        lines.append(f"Recommendation: {res.get('recommendation', 'N/A')}")
+        lines.append(f"Analysis: {res.get('analysis', 'N/A')}")
         lines.append("-" * 40)
     return "\n".join(lines)
 
