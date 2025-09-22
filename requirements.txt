@@ -3,5 +3,6 @@ pandas
 numpy
 matplotlib
 yfinance
-flask
+ta
+
 
