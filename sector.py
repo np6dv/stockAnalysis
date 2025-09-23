@@ -12,7 +12,7 @@ Usage examples:
   python sector_rotation_screener.py --benchmark XIU.TO --plot  # Canadian benchmark (TSX 60)
   python sector_rotation_screener.py --custom_file sectors.csv --benchmark RSP --json --out rotation.csv
   python sector.py --slope_window 10
-  git push
+  
 CSV format for --custom_file:
 symbol,sector
 XLY,Consumer Discretionary
