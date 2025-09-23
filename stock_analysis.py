@@ -136,7 +136,7 @@ def analyze_stock(ticker):
 
     return {
         "ticker": ticker.upper(),
-        "current_price": current_price,
+        "current_price": round(current_price, 2),
         "analyst_predictions": analyst,
         "last_inflection": inflection_summary,
         "volume_analysis": volume_summary,
