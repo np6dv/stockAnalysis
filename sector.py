@@ -334,6 +334,8 @@ def plot_rrg(df: pd.DataFrame, title: str):
     plt.grid(alpha=0.2)
     plt.tight_layout()
     plt.show()
+    plt.savefig("rrg_chart.png", dpi=140)
+    print("Chart saved as rrg_chart.png")
 
 
 # -----------------------
