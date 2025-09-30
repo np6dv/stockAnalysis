@@ -24,7 +24,6 @@ from typing import List, Optional, Tuple
 import numpy as np
 import pandas as pd
 import yfinance as yf
-import matplotlib.pyplot as plt
 
 
 # -----------------------------
@@ -253,47 +252,6 @@ def build_long_trade_from_leg(
 # -----------------------------
 # Plotting
 # -----------------------------
-def plot_fib(df: pd.DataFrame, leg: SwingLeg, plan: FibTradePlan, ticker: str):
-    plt.figure(figsize=(12, 6))
-    dates = pd.to_datetime(df['date'])
-    plt.plot(dates, df['close'], color='black', linewidth=1.3, label='Close')
-
-    # Highlight the swing leg
-    x0 = dates.iloc[leg.start_idx]
-    x1 = dates.iloc[leg.end_idx]
-    y0 = leg.start_price
-    y1 = leg.end_price
-    plt.plot([x0, x1], [y0, y1], color='tab:blue', linewidth=2.5, label=f"Swing {leg.direction.upper()}")
-
-    # Fib levels
-    rets = fib_retracements(leg.start_price, leg.end_price)
-    exts = fib_extensions(leg.start_price, leg.end_price)
-
-    # Retracements inside the chart range
-    for k, v in rets.items():
-        plt.hlines(v, xmin=dates.iloc[leg.start_idx], xmax=dates.iloc[-1], colors='tab:orange', linestyles='--', alpha=0.6)
-        plt.text(dates.iloc[leg.start_idx], v, f" {k} ({v:.2f})", color='tab:orange', va='bottom', fontsize=8)
-
-    # Extensions above the swing high (if visible)
-    for k, v in exts.items():
-        if v <= df['close'].max() * 1.5:  # avoid drawing absurdly high lines
-            plt.hlines(v, xmin=dates.iloc[leg.end_idx], xmax=dates.iloc[-1], colors='tab:green', linestyles=':', alpha=0.6)
-            plt.text(dates.iloc[leg.end_idx], v, f" ext {k} ({v:.2f})", color='tab:green', va='bottom', fontsize=8)
-
-    # Entry/Stop/Target markers
-    plt.axhline(plan.entry_price, color='dodgerblue', linestyle='-', linewidth=1.8, label=f"Entry @ {plan.entry_price}")
-    plt.axhline(plan.stop_price, color='crimson', linestyle='-', linewidth=1.8, label=f"Stop @ {plan.stop_price}")
-    plt.axhline(plan.target_price, color='forestgreen', linestyle='-', linewidth=1.8, label=f"Target @ {plan.target_price}")
-
-    plt.title(f"{ticker.upper()} • Fibonacci Levels\nSwing {leg.direction} {leg.start_date.date()} → {leg.end_date.date()}")
-    plt.xlabel("Date")
-    plt.ylabel("Price")
-    plt.legend(loc='best')
-    plt.grid(alpha=0.2)
-    plt.tight_layout()
-    plt.show()
-
-
 # -----------------------------
 # Main analysis function
 # -----------------------------
@@ -403,11 +361,6 @@ def analyze_fibonacci(
         "disclaimer": "For research/education only. Not financial advice."
     }
 
-    if plot and selected_leg.direction == 'up':
-        try:
-            plot_fib(df, selected_leg, plan, ticker)
-        except Exception as e:
-            print(f"[WARN] Plot failed: {e}")
 
     return result
 
@@ -475,7 +428,6 @@ def main():
         print(f"  Reward:Risk ≈ {plan['reward_risk']}")
         print("\nContext:")
         print(f"  Last close ({ctx['last_date']}): {ctx['last_close']}")
-        print(f"  Distance to entry: {ctx['distance_to_entry_pct']}%")
         print(f"  Distance to stop (from entry): {ctx['distance_to_stop_pct']}%")
         print(f"  Distance to target (from entry): {ctx['distance_to_target_pct']}%")
         print("\n(disclaimer) For research/education only. Not financial advice.")
@@ -483,3 +435,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
